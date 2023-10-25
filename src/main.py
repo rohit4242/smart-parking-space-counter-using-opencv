@@ -3,14 +3,14 @@ import pickle
 import numpy as np
 import cvzone
 def test():
-    rect_width, rect_height = 40,  90
+    rect_width, rect_height = 15,  30
     carp_park_positions_path = "data/source/CarParkPos"
-    video_path = "data/source/sample_1.mp4"
+    video_path = "data/source/sample_2.mp4"
     with open(carp_park_positions_path, 'rb') as f:
         posList = pickle.load(f)
 
     cap = cv2.VideoCapture(video_path)
-
+    
     def checkParkingSpace(imgPro):
         spaceCounter = 0
 
@@ -22,17 +22,17 @@ def test():
             count = cv2.countNonZero(imgCrop)
 
 
-            if count < 800:
+            if count < 120:
                 color = (0, 255, 0)
-                thickness = 5
+                thickness = 2
                 spaceCounter += 1
             else:
                 color = (0, 0, 255)
-                thickness = 2
+                thickness = 1
 
             cv2.rectangle(img, pos, (pos[0] + rect_width, pos[1] + rect_height), color, thickness)
             cvzone.putTextRect(img, str(count), (x, y + rect_height - 3), scale=1,
-                            thickness=2, offset=0, colorR=color)
+                            thickness=1, offset=0, colorR=color)
 
         cvzone.putTextRect(img, f'Free: {spaceCounter}/{len(posList)}', (10, 50), scale=2,
                             thickness=3, offset=20, colorR=(0,200,0))
@@ -49,13 +49,17 @@ def test():
         kernel = np.ones((3, 3), np.uint8)
         imgDilate = cv2.dilate(imgMedian, kernel, iterations=1)
 
+
         checkParkingSpace(imgDilate)
+
         cv2.imshow("Image", img)
         cv2.imshow("ImageBlur", imgBlur)
         cv2.imshow("ImageThres", imgMedian)
-        k = cv2.waitKey(20)
+        k = cv2.waitKey(40)
         if k & 0xFF == ord('q'):
             break
+        if k & 0xFF == ord('s'):
+            cv2.imwrite("output.jpg", img)
 
     cap.release()
     cv2.destroyAllWindows()

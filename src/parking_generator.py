@@ -3,7 +3,7 @@ import pickle
 
 
 def generator():
-    width, height = 40, 90
+    width, height = 15, 30
 
     try:
         with open("data/source/CarParkPos", "rb") as f:
@@ -24,7 +24,7 @@ def generator():
             pickle.dump(posList, f)
 
     while True:
-        img = cv2.imread("data/source/output.jpg")
+        img = cv2.imread("data/source/output_1.jpg")
         for pos in posList:
             cv2.rectangle(img, pos, (pos[0] + width, pos[1] + height), (255, 0, 255), 2)
 
@@ -33,6 +33,9 @@ def generator():
         # exit condition
         if cv2.waitKey(1) == ord("q"):
             break
+        if cv2.waitKey(1) == ord("s"):
+            cv2.imwrite("output.jpg", img)
+
 
     cv2.destroyAllWindows()
 
