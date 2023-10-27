@@ -3,13 +3,15 @@ import pickle
 import numpy as np
 import cvzone
 def test():
-    rect_width, rect_height = 15,  30
-    carp_park_positions_path = "data/source/CarParkPos"
-    video_path = "data/source/sample_2.mp4"
+    rect_width, rect_height = 40,  80
+    carp_park_positions_path = "data/source/Sample_3"
+    video_path = "data/source/sample_3.mp4"
     with open(carp_park_positions_path, 'rb') as f:
         posList = pickle.load(f)
 
     cap = cv2.VideoCapture(video_path)
+
+    cv2.namedWindow("Parking Lot", cv2.WINDOW_NORMAL)
     
     def checkParkingSpace(imgPro):
         spaceCounter = 0
@@ -18,11 +20,10 @@ def test():
             x, y = pos
 
             imgCrop = imgPro[y:y + rect_height, x:x + rect_width]
-            # cv2.imshow(str(x * y), imgCrop)
             count = cv2.countNonZero(imgCrop)
 
 
-            if count < 120:
+            if count < 800:
                 color = (0, 255, 0)
                 thickness = 2
                 spaceCounter += 1
@@ -52,10 +53,10 @@ def test():
 
         checkParkingSpace(imgDilate)
 
-        cv2.imshow("Image", img)
+        cv2.imshow("Parking Lot", img)
         cv2.imshow("ImageBlur", imgBlur)
         cv2.imshow("ImageThres", imgMedian)
-        k = cv2.waitKey(40)
+        k = cv2.waitKey(50)
         if k & 0xFF == ord('q'):
             break
         if k & 0xFF == ord('s'):

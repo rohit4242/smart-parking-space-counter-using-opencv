@@ -3,10 +3,10 @@ import pickle
 
 
 def generator():
-    width, height = 15, 30
+    width, height = 40, 80
 
     try:
-        with open("data/source/CarParkPos", "rb") as f:
+        with open("data/source/Sample_3", "rb") as f:
             posList = pickle.load(f)
     except:
         posList = []
@@ -20,11 +20,11 @@ def generator():
                 if x1 < x < x1 + width and y1 < y < y1 + height:
                     posList.pop(i)
 
-        with open("data/source/CarParkPos", "wb") as f:
+        with open("data/source/Sample_3", "wb") as f:
             pickle.dump(posList, f)
 
     while True:
-        img = cv2.imread("data/source/output_1.jpg")
+        img = cv2.imread("data/source/output_2.jpg")
         for pos in posList:
             cv2.rectangle(img, pos, (pos[0] + width, pos[1] + height), (255, 0, 255), 2)
 
