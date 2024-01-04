@@ -1,7 +1,6 @@
 import cv2
 import pickle
 import numpy as np
-import cvzone
 def test():
     rect_width, rect_height = 40,  80
     carp_park_positions_path = "data/source/Sample_3"
@@ -32,11 +31,11 @@ def test():
                 thickness = 1
 
             cv2.rectangle(img, pos, (pos[0] + rect_width, pos[1] + rect_height), color, thickness)
-            cvzone.putTextRect(img, str(count), (x, y + rect_height - 3), scale=1,
-                            thickness=1, offset=0, colorR=color)
+            cv2.putText(img, str(count), (x + 5, y + 15), cv2.FONT_HERSHEY_PLAIN, 1, color, 1)
 
-        cvzone.putTextRect(img, f'Free: {spaceCounter}/{len(posList)}', (10, 50), scale=2,
-                            thickness=3, offset=20, colorR=(0,200,0))
+
+        cv2.putText(img, f'Free: {spaceCounter}/{len(posList)}', (10, 50), 
+                    cv2.FONT_HERSHEY_PLAIN, 2, (0,200,0), 3)
     while True:
 
         if cap.get(cv2.CAP_PROP_POS_FRAMES) == cap.get(cv2.CAP_PROP_FRAME_COUNT):

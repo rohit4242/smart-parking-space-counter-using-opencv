@@ -1,15 +1,9 @@
 import cv2
-import pickle
-
 
 def generator():
     width, height = 40, 80
 
-    try:
-        with open("data/source/Sample_3", "rb") as f:
-            posList = pickle.load(f)
-    except:
-        posList = []
+    posList = []
 
     def mouseClick(events, x, y, flags, params):
         if events == cv2.EVENT_LBUTTONDOWN:
@@ -20,8 +14,25 @@ def generator():
                 if x1 < x < x1 + width and y1 < y < y1 + height:
                     posList.pop(i)
 
-        with open("data/source/Sample_3", "wb") as f:
-            pickle.dump(posList, f)
+        saveList(posList)
+
+    def saveList(posList):
+        with open("data/source/Sample_3.txt", "w") as f:
+            for pos in posList:
+                f.write(str(pos[0]) + "," + str(pos[1]) + "\n")
+
+    def loadList():
+        posList = []
+        with open("data/source/Sample_3.txt", "r") as f:
+            for line in f:
+                x, y = line.split(",")
+                posList.append((int(x), int(y)))
+        return posList
+    
+    try:
+        posList = loadList()
+    except:
+        pass
 
     while True:
         img = cv2.imread("data/source/output_2.jpg")
@@ -30,12 +41,10 @@ def generator():
 
         cv2.imshow("Image", img)
         cv2.setMouseCallback("Image", mouseClick)
-        # exit condition
         if cv2.waitKey(1) == ord("q"):
             break
         if cv2.waitKey(1) == ord("s"):
             cv2.imwrite("output.jpg", img)
-
 
     cv2.destroyAllWindows()
 
