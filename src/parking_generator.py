@@ -17,13 +17,13 @@ def generator():
         saveList(posList)
 
     def saveList(posList):
-        with open("data/source/Sample_3.txt", "w") as f:
+        with open("data/source/Sample_3", "w") as f:
             for pos in posList:
                 f.write(str(pos[0]) + "," + str(pos[1]) + "\n")
 
     def loadList():
         posList = []
-        with open("data/source/Sample_3.txt", "r") as f:
+        with open("data/source/Sample_3", "r") as f:
             for line in f:
                 x, y = line.split(",")
                 posList.append((int(x), int(y)))
