@@ -2,21 +2,23 @@ import cv2
 import numpy as np
 import pyrebase
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 config = {
-    "apiKey": "AIzaSyC-oT2ZmZEKOJrDPmIPsQmvkaMkLgrnagw",
-    "authDomain": "free-parking-slot-counter.firebaseapp.com",
-    "databaseURL": "https://free-parking-slot-counter-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "storageBucket": "free-parking-slot-counter.appspot.com",
+    "apiKey": os.getenv("FIREBASE_API_KEY"),
+    "authDomain": os.getenv("FIREBASE_AUTH_DOMAIN"),
+    "databaseURL": os.getenv("FIREBASE_DATABASE_URL"),
+    "storageBucket": os.getenv("FIREBASE_STORAGE_BUCKET"),
 }
-
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 storage = firebase.storage()
 
 
 def load_parking_positions(file_path):
-  
     posList = []
     with open(file_path, "r") as f:
         for line in f:
