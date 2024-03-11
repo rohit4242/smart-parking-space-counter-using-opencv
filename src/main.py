@@ -92,7 +92,7 @@ def test():
 
     while True:
         if cap.get(cv2.CAP_PROP_POS_FRAMES) == cap.get(cv2.CAP_PROP_FRAME_COUNT):
-            cap.set(cv2.CAP_PROP_POS_FRAMES, 10)
+            cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
         success, img = cap.read()
         imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         imgBlur = cv2.GaussianBlur(imgGray, (3, 3), 1)
